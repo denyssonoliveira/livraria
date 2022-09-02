@@ -1,0 +1,73 @@
+/*HOME*/
+.vitrine-header{
+    margin-top: 30px;
+}
+.vitrine{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 25px 0 70px 0;
+}
+.vitrine .card{
+    margin-right: 20px;
+    margin-bottom: 30px;
+}
+.vitrine .btn{
+    width: 100%;
+}
+.vitrine .card-title{
+    font-weight: 600;
+    color: #455363;
+    text-transform: uppercase;
+    font-size: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    min-height: 58px;
+}
+.vitrine .author-card{
+    margin-top: -34px;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: #fff;
+    padding: 5px 2px;
+}
+.vitrine .price{
+    font-size: 20px;
+    color: #455363;
+    font-weight: 700;
+}
+
+
+/*LISTA*/
+.tabela-livros{
+    margin-top: 30px;
+    margin-bottom: 70px;
+}
+.buttons-act{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.buttons-act button{
+    margin-right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+}
+.edit-button{
+    color: #034bb7;
+}
+.delete-button{
+    color: #ce2c2c;
+}
+.buttons-cad{
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.dest-title{
+    font-weight: 700;
+}

@@ -1,0 +1,42 @@
+<%- include('partials/header'); %>
+
+<div class="container">
+    <div class="vitrine-header">
+        <h2>Nosso Catálogo de Livros</h2>
+    </div>
+    <div class="vitrine">
+        <% if(typeof livros !== "undefined"){ %>
+            <% livros.forEach(livro => { %>
+                <div class="card" style="width: 12rem;">
+                    <img src="/images/livro.jpg" class="card-img-top" alt="capa do livro">
+                    <div class="author-card">
+                        <%
+                            if(livro.authorId != null){
+                                authors.forEach(author => {
+                                    if(author.id == livro.authorId){
+                        %>
+                                        <div><%= 'Por '+author.firstName+' '+author.lastName %></div>
+                        <%
+                                    }
+                                });
+                            }else{
+                        %>
+                                <div>Não cadastrado</div>
+                        <%
+                            }
+                        %>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title d-flex justify-content-center"><%- livro.title != null ? livro.title : 'Não cadastrado'; %></h5>
+                        <p class="card-text d-flex justify-content-center price">R$ 44,99</p>
+                        <a href="#" class="btn btn-primary">Comprar</a>
+                    </div>
+                </div>
+            <% }); %>
+        <% }else{ %>
+            <div><%= erro %></div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('partials/footer'); %>

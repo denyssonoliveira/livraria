@@ -1,0 +1,26 @@
+{
+  "name": "livraria",
+  "version": "1.0.0",
+  "description": "Aplicação para livraria virtual.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "livraria",
+    "virtual"
+  ],
+  "author": "Denysson Oliveira",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "bootstrap": "^5.2.0",
+    "bootstrap-icons": "^1.9.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19"
+  }
+}

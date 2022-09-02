@@ -1,0 +1,149 @@
+<%- include('partials/header'); %>
+    <div class="container">
+        <div class="buttons-cad">
+            <button type="button" class="btn btn btn-success" data-bs-toggle="modal" data-bs-target="#inputModal">Cadastrar livro <i class="bi bi-plus-circle"></i></button>
+        </div>
+
+        <%# MODAL DE CADASTRO DE LIVROS %>
+        <div class="modal fade" id="inputModal" tabindex="-1" aria-labelledby="inputModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="inputModalLabel">Cadastrar novo livro</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="cadLivro" action="/cadastrarlivro" method="post">
+                            <div class="mb-3">
+                                <label for="nomelivro" class="form-label">Nome:</label>
+                                <input required class="form-control" type="text" name="nomelivro" id="nomelivro" placeholder="Nome do livro">
+                            </div>
+                            <div class="mb-3">
+                                <label for="isbnlivro" class="form-label">Código ISBN:</label>
+                                <input required class="form-control" type="text" name="isbnlivro" id="isbnlivro" placeholder="Codigo ISBN do livro">
+                            </div>
+                            <div class="mb-3">
+                                <label for="authorlivro" class="form-label">Autor:</label>
+                                <select required class="form-select" name="authorlivro" id="authorlivro">
+                                    <option value="" selected>Selecione o autor</option>
+                                    <% authors.forEach(author => { %>
+                                        <option value="<%= author.id %>"><%= `${author.firstName} ${author.lastName}` %></option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" form="cadLivro" class="btn btn-success">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <%# LISTA DE LIVROS %>
+        <div class="tabela-livros">
+            <table class="table">
+                <thead>
+                    <th>#</th>
+                    <th>Nome do livro</th>
+                    <th>Autor</th>
+                    <th>ISBN</th>
+                    <th>Ações</th>
+                </thead>
+                <tbody class="table-group-divider">
+                    <% if(typeof livros !== "undefined"){ %>
+                        <% livros.forEach(livro => { %>
+                            <tr>
+                                <td><%= livro.id %></td>
+                                <td><%- livro.title != null ? livro.title : 'Não cadastrado'; %></td>
+                                <td>
+                                    <%
+                                        if(livro.authorId != null){
+                                            authors.forEach(author => {
+                                                if(author.id == livro.authorId){
+                                    %>
+                                                    <div><%= author.firstName+' '+author.lastName %></div>
+                                    <%
+                                                }
+                                            });
+                                        }else{
+                                    %>
+                                            <div>Não cadastrado</div>
+                                    <%
+                                        }
+                                    %>
+                                </td>
+                                <td><%- livro.isbn != null ? livro.isbn : 'Não cadastrado'; %></td>
+                                <td>
+                                    <div class="buttons-act">
+                                        <button class="edit-button" type="button" data-bs-toggle="modal" data-bs-target="#editModal<%= livro.id %>"><i class="bi bi-pencil-square"></i></button>
+                                        <button class="delete-button" type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<%= livro.id %>"><i class="bi bi-trash"></i></button>
+                                    </div>
+                                </td>
+                                
+                                <%# MODAL DE DELEÇÃO DE LIVROS %>
+                                <div class="modal fade" id="deleteModal<%= livro.id %>" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <form id="deleteLivro<%= livro.id %>" action="/deletarlivro" method="post">
+                                                    <input type="hidden" name="idLivro" id="idLivro" value="<%= livro.id %>">
+                                                </form>
+                                                <div class="mb-3">Tem certeza que deseja deletar o livro <span class="dest-title"><%- livro.title != null ? livro.title : 'Não cadastrado'; %></span>?</div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" form="deleteLivro<%= livro.id %>" class="btn btn-danger">Deletar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <%# MODAL DE EDIÇÃO DE LIVROS %>
+                                <div class="modal fade" id="editModal<%= livro.id %>" tabindex="-1" aria-labelledby="editModalLabel<%= livro.id %>" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="inputModalLabel<%= livro.id %>">Editar livro <span class="dest-title"><%- livro.title != null ? livro.title : 'Não cadastrado'; %></span></h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="editLivro<%= livro.id %>" action="/editarlivro" method="post">
+                                                    <div class="mb-3">
+                                                        <label for="edtnomelivro" class="form-label">Nome do livro:</label>
+                                                        <input required class="form-control" type="text" name="edtnomelivro" id="edtnomelivro" value="<%- livro.title != null ? livro.title : 'Não cadastrado'; %>">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="edtisbnlivro" class="form-label">Código ISBN:</label>
+                                                        <input required class="form-control" type="text" name="edtisbnlivro" id="edtisbnlivro" value="<%- livro.isbn != null ? livro.isbn : 'Não cadastrado'; %>">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="edtauthorlivro" class="form-label">Autor:</label>
+                                                        <select required class="form-select" name="edtauthorlivro" id="edtauthorlivro">
+                                                            <% authors.forEach(author => { %>
+                                                                <option <%- livro.authorId == author.id ? 'selected' : '' ;  %> value="<%= author.id %>"><%= `${author.firstName} ${author.lastName}` %></option>
+                                                            <% }); %>
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="edtidLivro" id="edtidLivro" value="<%= livro.id %>">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                <button type="submit" form="editLivro<%= livro.id %>" class="btn btn-primary">Atualizar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        <% }); %>
+                    <% }else{ %>
+                        <tr>
+                            <td colspan="5"><%= erro %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<%- include('partials/footer'); %>
