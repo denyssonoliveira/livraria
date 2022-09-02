@@ -1,4 +1,10 @@
 /*HOME*/
+header{
+    background-color: #0d6efd;
+}
+.container-fluid{
+    justify-content: flex-start !important;
+}
 .vitrine-header{
     margin-top: 30px;
 }
